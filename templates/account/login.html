@@ -1,0 +1,162 @@
+{% extends "account/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block body %}
+{% block content %}
+
+<div class="login-box animated fadeInDown">
+<div class="login-logo"></div>
+<div class="login-body">
+  <div class="login-title"><strong>Log In</strong> to your account</div>
+    <form action="{% url 'account_login' %}" class="form-horizontal" method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <div class="col-md-12">
+          {{ form.login|add_class:'form-control' }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-12">
+          {{ form.password|add_class:'form-control' }} <br>
+          {{ form.remember }} <small style="color: #000;">Remember me</small>
+          {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif%}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-6">
+          <a href="{% url 'account_reset_password' %}" class="btn btn-link btn-block">{% trans "Forgot Password?" %}</a>
+        </div>
+        <div class="col-md-6">
+          <button class="btn btn-info btn-block" type="submit">{% trans "Sign In" %}</button>
+        </div>
+      </div>
+    <div class="login-or">OR</div>
+<!--     <div class="form-group">
+        <div class="col-md-4">
+            <button class="btn btn-info btn-block btn-twitter"><span class="fa fa-twitter"></span> Twitter</button>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-info btn-block btn-facebook"><span class="fa fa-facebook"></span> Facebook</button>
+        </div>
+        <div class="col-md-4">                            
+            <button class="btn btn-info btn-block btn-google"><span class="fa fa-google-plus"></span> Google</button>
+        </div>
+    </div> -->
+    <div class="login-subtitle">
+        Don't have an account yet? <a href="{{ signup_url }}">Create an account</a>
+    </div>
+    </form>
+</div>
+<div class="login-footer">
+    <div class="pull-left">
+        &copy; 2019 {{ site_name }}
+    </div>
+    <div class="pull-right">
+        <a href="#">About</a> |
+        <a href="#">Privacy</a> |
+        <a href="#">Contact Us</a>
+    </div>
+</div>
+</div>
+
+
+<style type="text/css">
+/* LOGIN */
+.login-container {
+  float: left;
+  width: 100%;
+  min-height: 100%;
+  background: url("{% static 'img/1.jpg' %}") left top repeat #1b1e24;
+}
+.login-container .login-box {
+  width: 400px;
+  margin: 0px auto;
+  padding-top: 100px;
+}
+.login-container .login-box .login-body {
+  width: 100%;
+  float: left;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+}
+.login-container .login-box .login-body .login-title {
+  color: #000;
+  font-size: 19px;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+.login-container .login-box .login-body .form-control {
+  border: 0px;
+  background: rgba(0, 0, 0, 0.9);
+  padding: 10px 15px;
+  color: #fef4f4;
+  line-height: 20px;
+  height: auto;
+}
+.login-container .login-box .login-body .btn-link {
+  color: #000;
+  border: 0px;
+}
+.login-container .login-box .login-body .login-or {
+  width: 40px;
+  height: 25px;
+  background: rgba(0, 0, 0, 0.5);
+  position: relative;
+  margin: 25px auto;
+  text-align: center;
+  line-height: 25px;
+  color: #000;
+}
+.login-container .login-box .login-body .login-or:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 0;
+  top: -10px;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 10px solid rgba(0, 0, 0, 0.5);
+}
+.login-container .login-box .login-body .login-or:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 0;
+  bottom: -10px;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 10px solid rgba(0, 0, 0, 0.5);
+}
+.login-container .login-box .login-body .login-subtitle {
+  line-height: 20px;
+  padding: 5px 0px;
+  font-size: 12px;
+  color: #000;
+}
+.login-container .login-box .login-body .login-subtitle a {
+  color: #1caf9a;
+}
+.login-container .login-box .login-footer {
+  width: 100%;
+  float: left;
+  padding: 10px;
+  color: #000;
+}
+.login-container .login-box .login-footer a {
+  color: #FFF;
+}
+/* END LOGIN */
+</style>
+{% endblock %}
+{% endblock %}

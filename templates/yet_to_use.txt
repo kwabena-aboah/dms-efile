@@ -1,0 +1,148 @@
+<p>
+	<a href="{% url 'inward:index' %}">Dashboard</a>
+	<a href="{% url 'inward:inward_list' %}">Inward</a>
+	<a href="{% url 'inward:list' %}">Inward uploads</a>
+</p>
+
+
+
+
+
+SIGN IN FORMS
+<h1>{% trans "Sign In" %}</h1>
+
+{% get_providers as socialaccount_providers %}
+{% if socialaccount_providers %}
+<p>{% blocktrans with site.name as site_name %}Please sign in with one
+of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+for a {{ site_name }} account and sign in
+below:{% endblocktrans %}</p>
+
+<div class="socialaccount_ballot">
+
+  <ul class="socialaccount_providers">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+  </ul>
+
+  <div class="login-or">{% trans 'or' %}</div>
+
+</div>
+
+{% include "socialaccount/snippets/login_extra.html" %}
+
+{% endif %}
+
+<form class="login" method="POST" action="{% url 'account_login' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
+    <a class="btn" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+
+  </div>
+</form>
+
+
+
+SIGN UP FORMS
+
+
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Sign Up" %}</h1>
+
+<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+<form id="signup_form" method="post" action="{% url 'account_signup' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <div class="form-actions">
+  <button class="btn btn-primary" type="submit">{% trans "Sign Up" %}</button>
+  </div>
+</form>
+
+{% endblock %}
+
+
+
+SEARCH FORM YET TO BE CORRECTED
+
+
+<!-- Modal for search -->
+<div class="modal" id="modal_large" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="largeModalHead">Search Results</h4>
+                <div class="pull-right">
+                  <form class="form" action="{% url 'inward:search' %}" method="GET" value="{{ request.GET.q }}">
+                    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search inward">
+                    <input name="submit" class="btn btn-default" type="submit">
+                  </form>
+                </div>
+            </div>
+            <div class="modal-body">
+                 <table class="table table-bordered">
+                    <thead>
+            <tr>
+              <th>Letter date</th>
+              <th>Received date</th>
+              <th>Received from</th>
+              <th>Ref no</th>
+              <th>Subject</th>
+              <th>Officer to</th>
+              <th>Date filed</th>
+              <th>File number</th>
+              <th>owner</th>
+            </tr>
+          </thead>
+                   <tbody>
+                      {% if found_inward == None %}
+              <td>{{ found_inward }}</td>>
+            {% endif %}
+        </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                        
+            </div>
+        </div>
+    </div>
+</div>   
+<!-- End search modal -->
+
+
+
+POSTMAN INBOX
+
+      <div class="row">
+        <div class="col-md-2">
+          {% block postman_menu %}
+        <ul id="postman_menu">{% postman_unread as unread_count %}
+         <li><a href="{% url 'postman:inbox' %}">&raquo;&nbsp;{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
+         <li><a href="{% url 'postman:sent' %}">&raquo;&nbsp;{% trans "Sent Messages" %}</a></li>
+         <li><a href="{% url 'postman:write' %}">&raquo;&nbsp;{% trans "Write" %}</a></li>
+         <li><a href="{% url 'postman:archives' %}">&raquo;&nbsp;{% trans "Archives" %}</a></li>
+         <li><a href="{% url 'postman:trash' %}">&raquo;&nbsp;{% trans "Trash" %}</a></li>
+        </ul>
+        {% endblock %}
+        </div>
+      </div>
+      <div class="col-md-8">
+        {% block pm_undelete_button %}{% endblock %}
+{% block pm_recipient_header %}{% endblock %}
+{% block pm_date %}{% trans "Received" %}{% endblock %}
+{% block pm_recipient_cell %}{% endblock %}
+{% block pm_write_button %}{% trans 'write' %}{% endblock %}

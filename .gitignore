@@ -1,0 +1,11 @@
+#Database
+*.sqlite3
+#git
+*.git
+#SETTINGS1
+local_settings.py
+staticfiles
+__pycache__
+.env
+venv
+*.yaml

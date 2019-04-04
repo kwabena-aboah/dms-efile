@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block body %}
+{% block content %}
+
+<div class="page-content-wrap">
+	<div class="row">
+        <div class="col-md-12">
+          {% for message in messages %}
+            <div class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %}" style="background-color: #1CAF9A; color: #fff;">
+                {# close-href is used because href is used by bootstrap to closing other divs #}
+                <a class="close" data-dismiss="alert"{% if message.pk %} close-href="{% url 'message_mark_read' message.pk %}"{% endif %}>×</a>
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+	<div class="row">
+		<div class="col-md-6">
+			
+			<div class="panel panel-default">
+				<div class="panel-body">
+					{% block header %}
+						<h3><span class="fa fa-mail-forward">Image Upload</span> <small>Scanned Images only. Must be in .jpeg or .png format</small></h3>
+					{% endblock header %}
+					<form enctype="multipart/form-data" class="form-horizontal" action="{% url 'inward:upload' %}" method="post">
+						{% csrf_token %}
+						<div class="form-group">
+							<div class="col-md-12">
+								<label for="id_name">Name:</label>
+								{{ form.name|add_class:'form-control' }}
+							</div>
+							<div class="col-md-12">
+								<label for="id_imagefile">Imagefile:</label>
+								<input type="file" name="imagefile" accept="image/*" class="file" required="id_imagefile" data-preview-file-type='any'>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% endblock %}

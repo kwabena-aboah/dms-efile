@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block body %}
+{% block content %}
+
+<!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">
+    <div class="row">
+        <div class="col-md-12">
+          {% for message in messages %}
+            <div class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %}" style="background-color: #1CAF9A; color: #fff;">
+                {# close-href is used because href is used by bootstrap to closing other divs #}
+                <a class="close" data-dismiss="alert"{% if message.pk %} close-href="{% url 'message_mark_read' message.pk %}"{% endif %}>×</a>
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    <!-- START WIDGETS -->                    
+    <div class="row">
+        <div class="col-md-6">
+            
+            <!-- START WIDGET MESSAGES -->
+            <div class="widget widget-danger widget-item-icon" style="color: #ffffff;">
+                <div class="widget-item-left">
+                 <a href="{% url 'inward:list' %}" style="color: #ffffff;"><span class="fa fa-camera"></span></a>
+                </div>                             
+                <div class="widget-data">
+                    <div class="widget-int num-count">
+                        <small><a href="{% url 'outward:list' %}" style="color: #ffffff;">
+                            Outward Uploads
+                        </a></small>
+                    </div>
+                    <div class="widget-title">
+                        <small><a href="{% url 'outward:list' %}" style="color: #ffffff;">
+                            Scanned images only
+                        </a></small>
+                    </div>
+                </div>      
+            </div>                            
+            <!-- END WIDGET MESSAGES -->
+            
+        </div>
+        <div class="col-md-6">
+            
+            <!-- START WIDGET REGISTRED -->
+            <div class="widget widget-warning widget-item-icon">
+                <div class="widget-item-left">
+                    <a href="{% url 'inward:list' %}" style="color: #ffffff;"><span class="fa fa-camera"></span></a>
+                </div>
+                <div class="widget-data">
+                    <div class="widget-int num-count">
+                    	<small><a href="{% url 'inward:list' %}" style="color: #ffffff;">
+                    		Inward Uploads
+                    	</a></small>
+                    </div>
+                    <div class="widget-title">
+                    	<small><a href="{% url 'inward:list' %}" style="color: #ffffff;">
+                    		Scanned images only
+                    	</a></small>
+                    </div>
+                </div>                        
+            </div>                            
+            <!-- END WIDGET REGISTRED -->
+            
+        </div>
+        <!-- <div class="col-md-4">
+            
+            <div class="widget widget-info widget-padding-sm">
+                <div class="widget-big-int plugin-clock">00:00</div>                            
+                <div class="widget-subtitle plugin-date">Loading...</div>                        
+                <div class="widget-buttons widget-c3">
+                    <div class="col">
+                        <a href="#"><span class="fa fa-clock-o"></span></a>
+                    </div>
+                    <div class="col">
+                        <a href="#"><span class="fa fa-bell"></span></a>
+                    </div>
+                    <div class="col">
+                        <a href="#"><span class="fa fa-calendar"></span></a>
+                    </div>
+                </div>                            
+            </div>                        
+        </div> -->
+    </div>
+    <!-- END WIDGETS -->         
+</div>
+<!-- END PAGE CONTENT WRAPPER -->                                
+
+{% endblock %}
+{% endblock %}

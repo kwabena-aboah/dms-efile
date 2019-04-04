@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% block content %}
+<div class="page-content-wrap">
+	<div class="row">
+        <div class="col-md-12">
+          {% for message in messages %}
+            <div class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %}" style="background-color: #1CAF9A; color: #fff;">
+                {# close-href is used because href is used by bootstrap to closing other divs #}
+                <a class="close" data-dismiss="alert"{% if message.pk %} close-href="{% url 'message_mark_read' message.pk %}"{% endif %}>×</a>
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+	<div class="row">
+		<div class="col-md-12">
+			<!-- START SIMPLE DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">                                
+                        <h3 class="panel-title">Outward Correspondence</h3>                                  
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+								<tr>
+									<th>Id</th>
+									<th>Name</th>
+									<th>Thumbnail</th>
+									<th>Date created</th>
+								</tr>
+							</thead>
+                           <tbody>
+							{% for image in images %}
+							<tr>
+								<td>{{ image.id }}</td>
+								<td>{{ image.name }}</td>
+								<td>
+									<a href="{{ image.imagefile.url }}">
+										<img src="{{ image.imagefile.url }}" style="width: 100px; height: 100px;">
+									</a>
+								</td>
+								<td>{{ image.created_on }}</td>
+							</tr>
+							{% empty %}
+								<p>No image upload for Outward correspondence.</p>
+							{% endfor %}
+						</tbody>
+                        </table>
+
+                        <!-- START PAGINATION -->
+                        <div class="paginator">
+							<div class="pagination pagination-sm pull-right">
+								<span class="step-links">
+									{% if image.has_previous %}
+										<a href="?page=1" class="btn btn-default">&laquo; first</a>
+										<a href="?page={{ image.previous_page_number }}" class="btn btn-default">previous</a>
+									{% endif %}
+
+								<span class="current">
+									Page {{ image.number }} of {{ image.paginator.num_pages }}.
+								</span>
+
+									{% if outward.has_next %}
+										<a href="?page={{ image.next_page_number }}" class="btn btn-default">next</a>
+										<a href="?page={{ image.paginator.num_pages }}" class="btn btn-default">last &raquo;</a>
+									{% endif %}
+								</span>
+							</div>
+						</div>
+						<!-- END PAGINATION -->
+                    </div>
+                </div>
+                <!-- END SIMPLE DATATABLE -->
+
+            </div>
+        </div>                                
+        
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->  
+
+<a href="{% url 'outward:upload' %}" class="float">
+	<i class="fa fa-picture-o my-float"></i>
+</a>
+
+<!-- Custom css for floating button -->
+<style type="text/css">
+	.float{
+		position: fixed;
+		width: 60px;
+		height: 60px;
+		bottom: 40px;
+		right: 40px;
+		background-color: #0c9;
+		color: #fff;
+		border-radius: 50px;
+		text-align: center;
+		box-shadow: 2px 2px 3px #999;
+	}
+
+	.float:hover{
+		color: #fff;
+	}
+
+	.my-float{
+		margin-top: 22px;
+	}
+</style>
+{% endblock %}
+{% endblock %}

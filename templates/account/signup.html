@@ -1,0 +1,180 @@
+{% extends "account/base.html" %}
+{% load static %}
+{% load account %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block body %}
+{% block content %}
+
+<div class="login-box animated fadeInDown">
+<div class="login-logo"></div>
+<div class="login-body">
+  <div class="login-title"><strong>Create</strong> new account</div>
+  <div style="color: #000; font-size: 20px;">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}" style="color: #1caf9a;">sign in</a>.{% endblocktrans %}</div><hr>
+    <form id="signup_form" method="post" action="{% url 'account_signup' %}" class="form-horizontal">
+      {% csrf_token %}
+      <div class="form-group">
+        <div class="col-md-12">
+          <p style="color: #000;">{{ form.email.label_tag }}</p>
+          {{ form.email|add_class:"form-control" }}
+          {{ form.email.errors }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-12">
+          <p style="color: #000;">{{ form.username.label_tag }}</p>
+          {{ form.username|add_class:"form-control" }}
+          {{ form.username.errors }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-12">
+          <p style="color: #000;">{{ form.first_name.label_tag }}</p>
+          {{ form.first_name|add_class:"form-control" }}
+          {{ form.first_name.errors }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-12">
+          <p style="color: #000;">{{ form.last_name.label_tag }}</p>
+          {{ form.last_name|add_class:"form-control" }}
+          {{ form.last_name.errors }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-12">
+          <p style="color: #000;">{{ form.password1.label_tag }}</p>
+          {{ form.password1|add_class:"form-control" }}
+          {{ form.password1.errors }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-12">
+          <p style="color: #000;">{{ form.password2.label_tag }}</p>
+          {{ form.password2|add_class:"form-control" }}
+          {{ form.password2.errors }}
+        </div>
+      </div>
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <div class="form-group">
+        <div class="col-md-6">
+          <button class="btn btn-info btn-block" type="submit">{% trans "Sign Up" %}</button>
+        </div>
+      </div>
+    </form>
+</div>
+<div class="login-footer">
+    <div class="pull-left">
+        &copy; 2019 {{ site_name }}
+    </div>
+    <div class="pull-right">
+        <a href="#">About</a> |
+        <a href="#">Privacy</a> |
+        <a href="#">Contact Us</a>
+    </div>
+</div>
+</div>
+<style type="text/css">
+  .errorlist{
+    background-color: inherit;
+    color: red;
+    list-style: none;
+  }
+  /* LOGIN */
+.login-container {
+  float: left;
+  width: 100%;
+  min-height: 100%;
+  background: url("{% static 'img/1.jpg' %}") left top repeat #1b1e24;
+}
+.login-container .login-box {
+  width: 400px;
+  margin: 0px auto;
+  padding-top: 100px;
+}
+.login-container .login-box .login-body {
+  width: 100%;
+  float: left;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+}
+.login-container .login-box .login-body .login-title {
+  color: #000;
+  font-size: 19px;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+.login-container .login-box .login-body .form-control {
+  border: 0px;
+  background: rgba(0, 0, 0, 0.9);
+  padding: 10px 15px;
+  color: #fef4f4;
+  line-height: 20px;
+  height: auto;
+}
+.login-container .login-box .login-body .btn-link {
+  color: #000;
+  border: 0px;
+}
+.login-container .login-box .login-body .login-or {
+  width: 40px;
+  height: 25px;
+  background: rgba(0, 0, 0, 0.5);
+  position: relative;
+  margin: 25px auto;
+  text-align: center;
+  line-height: 25px;
+  color: #000;
+}
+.login-container .login-box .login-body .login-or:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 0;
+  top: -10px;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 10px solid rgba(0, 0, 0, 0.5);
+}
+.login-container .login-box .login-body .login-or:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 0;
+  bottom: -10px;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 10px solid rgba(0, 0, 0, 0.5);
+}
+.login-container .login-box .login-body .login-subtitle {
+  line-height: 20px;
+  padding: 5px 0px;
+  font-size: 12px;
+  color: #000;
+}
+.login-container .login-box .login-body .login-subtitle a {
+  color: #1caf9a;
+}
+.login-container .login-box .login-footer {
+  width: 100%;
+  float: left;
+  padding: 10px;
+  color: #000;
+}
+.login-container .login-box .login-footer a {
+  color: #FFF;
+}
+/* END LOGIN */
+</style>
+{% endblock %}
+{% endblock %}

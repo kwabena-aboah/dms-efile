@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+
+{% block body %}
+{% block content %}
+<div class="page-content-wrap">
+	<div class="row">
+        <div class="col-md-12">
+          {% for message in messages %}
+            <div class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %}" style="background-color: #1CAF9A; color: #fff;">
+                {# close-href is used because href is used by bootstrap to closing other divs #}
+                <a class="close" data-dismiss="alert"{% if message.pk %} close-href="{% url 'message_mark_read' message.pk %}"{% endif %}>×</a>
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+	<div class="row">
+		<div class="col-md-12">
+			<form class="form-horizontal" method="post" action="{% url 'outward:edit_outward' outward.id %}">
+				{% csrf_token %}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						{% block header %}
+							<h3 class="panel-title"><strong>Edit Outward</strong></h3>
+						{% endblock header %}						
+					</div>
+					
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="id_date_received">Date received:</label>
+									<div class="col-md-9 col-xs-12">
+										<div class="input-group">
+											<span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+											{{ form.date_received|add_class:'form-control datepicker' }}
+										</div>
+										<span class="help-block"></span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="id_date_despatched">Date despacthed:</label>
+									<div class="col-md-9 col-xs-12">
+										<div class="input-group">
+											<span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+											{{ form.date_despatched|add_class:'form-control datepicker' }}
+										</div>
+										<span class="help-block"></span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="id_subject">Subject</label>
+									<div class="col-md-9 col-xs-12">
+										<div class="input-group">
+											<span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+											{{ form.subject|add_class:'form-control' }}
+										</div>
+										<span class="help-block"></span>
+									</div>
+								</div>
+								
+							</div>
+							<div class="col-md-6">
+								
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="id_ref_no">Ref no:</label>
+									<div class="col-md-9 col-xs-12">
+										<div class="input-group">
+											<span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+											{{ form.ref_no|add_class:'form-control' }}
+										</div>
+										<span class="help-block"></span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="id_address">Address:</label>
+									<div class="col-md-9 col-xs-12">
+										<div class="input-group">
+											<span class="input-group-addon"><span class="fa fa-globe"></span></span>
+											{{ form.address|add_class:'form-control' }}
+										</div>
+										<span class="help-block">Address of the despatched file</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="id_despatch_mode">Despatch mode:</label>
+									<div class="col-md-9 col-xs-12">
+										<div class="input-group">
+											<span class="input-group-addon"><span class="fa fa-car"></span></span>
+											{{ form.despatch_mode|add_class:'form-control' }}
+										</div>
+										<span class="help-block">The method by which file was despatched</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel-footer">
+						<button name="submit" class="btn btn-info pull-right input-md">Submit</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% endblock %}

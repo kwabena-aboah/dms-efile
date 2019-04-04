@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% block content %}
+<div class="page-content-wrap">
+	<div class="row">
+		<div class="col-md-12">
+			<!-- START SIMPLE DATATABLE -->
+			{% if messages %}
+				<div class="alert alert-info" role='alert'>
+					<button class="close" data-dismiss='alert' type="button">
+						<span aria-hidden="true">x</span>
+						<span class="sr-only">Close</span>
+					</button>
+					{% for message in messages %}
+						<strong{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+					{% endfor %}
+				</div>
+			{% endif %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">                                
+                        <h3 class="panel-title">Outward Correspondence</h3>                                  
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+								<tr>
+									<th>Received date</th>
+									<th>Despatch date</th>
+									<th>Subject</th>
+									<th>Ref no</th>
+									<th>Address</th>
+									<th>Mode of despatch</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+                           <tbody>
+							{% for outward in outwards %}
+							<tr>
+								<td>{{ outward.date_received }}</td>
+								<td>{{ outward.date_despatched }}</td>
+								<td>{{ outward.subject }}</td>
+								<td>{{ outward.ref_no }}</td>
+								<td>{{ outward.address }}</td>
+								<td>{{ outward.despatch_mode }}</td>
+								<td>
+									<a class="btn btn-default btn-rounded btn-sm" href="{% url 'outward:edit_outward' outward.id %}"><span class="fa fa-pencil"></span></a>
+									{% if user.is_staff %}
+										<a href="{% url 'outward:delete_outward' outward.id %}" class="btn btn-danger btn-rounded btn-sm" onClick="delete_row('trow_3');"><span class="fa fa-times"></span></a>
+									{% endif %}
+								</td>
+							</tr>
+							{% empty %}
+								<p>There are no entries for outward correspondence.</p>
+							{% endfor %}
+						</tbody>
+                        </table>
+
+                        <!-- START PAGINATION -->
+                        <div class="paginator">
+							<div class="pagination pagination-sm pull-right">
+								<span class="step-links">
+									{% if outward.has_previous %}
+										<a href="?page=1" class="btn btn-default">&laquo; first</a>
+										<a href="?page={{ outward.previous_page_number }}" class="btn btn-default">previous</a>
+									{% endif %}
+
+								<span class="current">
+									Page {{ outward.number }} of {{ outward.paginator.num_pages }}.
+								</span>
+
+									{% if outward.has_next %}
+										<a href="?page={{ outward.next_page_number }}" class="btn btn-default">next</a>
+										<a href="?page={{ outward.paginator.num_pages }}" class="btn btn-default">last &raquo;</a>
+									{% endif %}
+								</span>
+							</div>
+						</div>
+						<!-- END PAGINATION -->
+                    </div>
+                </div>
+                <!-- END SIMPLE DATATABLE -->
+
+            </div>
+        </div>                                
+        
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+ <!-- MESSAGE BOX-->
+<div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+    <div class="mb-container">
+        <div class="mb-middle">
+            <div class="mb-title"><span class="fa fa-times"></span> Remove <strong>Data</strong> ?</div>
+            <div class="mb-content">
+                <p>Are you sure you want to remove this row?</p>                    
+                <p>Press Yes if you sure.</p>
+            </div>
+            <div class="mb-footer">
+                <div class="pull-right">
+                    <button class="btn btn-success btn-lg mb-control-yes">Yes</button>
+                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MESSAGE BOX-->   
+
+<a href="{% url 'outward:list' %}" class="float1">
+	<i class="fa fa-camera my-float"></i>
+</a>
+
+<a href="{% url 'outward:new_outward' %}" class="float">
+	<i class="fa fa-plus my-float"></i>
+</a>
+
+<!-- Custom css for floating button -->
+<style type="text/css">
+	.float{
+		position: fixed;
+		width: 60px;
+		height: 60px;
+		bottom: 40px;
+		right: 40px;
+		background-color: #0c9;
+		color: #fff;
+		border-radius: 50px;
+		text-align: center;
+		box-shadow: 2px 2px 3px #999;
+	}
+
+	.float:hover{
+		color: #fff;
+	}
+
+	.float1{
+		position: fixed;
+		width: 60px;
+		height: 60px;
+		bottom: 110px;
+		right: 40px;
+		background-color: #B04140;
+		color: #fff;
+		border-radius: 50px;
+		text-align: center;
+		box-shadow: 2px 2px 3px #999;
+	}
+
+	.float1:hover{
+		color: #fff;
+	}
+	.my-float{
+		margin-top: 22px;
+	}
+</style>
+{% endblock %}
+{% endblock %}
