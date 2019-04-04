@@ -65,7 +65,6 @@ INSTALLED_APPS = [
     'inward.apps.InwardConfig',
     'outward.apps.OutwardConfig',
     'efile',
-
     # Third party apps
     'allauth',
     'allauth.account',
